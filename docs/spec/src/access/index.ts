@@ -12,16 +12,16 @@ export const accessSpec: StepSpec<IntegrationConfig>[] = [
     entities: [
       {
         resourceName: 'User',
-        _type: 'acme_user',
+        _type: 'ad_user',
         _class: ['User'],
       },
     ],
     relationships: [
       {
-        _type: 'acme_account_has_user',
-        sourceType: 'acme_account',
+        _type: 'ad_account_has_user',
+        sourceType: 'ad_account',
         _class: RelationshipClass.HAS,
-        targetType: 'acme_user',
+        targetType: 'ad_user',
       },
     ],
     dependsOn: ['fetch-account'],
@@ -37,16 +37,41 @@ export const accessSpec: StepSpec<IntegrationConfig>[] = [
     entities: [
       {
         resourceName: 'UserGroup',
-        _type: 'acme_group',
+        _type: 'ad_group',
         _class: ['UserGroup'],
       },
     ],
     relationships: [
       {
-        _type: 'acme_account_has_group',
-        sourceType: 'acme_account',
+        _type: 'ad_account_has_group',
+        sourceType: 'ad_account',
         _class: RelationshipClass.HAS,
-        targetType: 'acme_group',
+        targetType: 'ad_group',
+      },
+    ],
+    dependsOn: ['fetch-account'],
+    implemented: true,
+  },
+  {
+    /**
+     * ENDPOINT: https://localhost/api/v1/devices
+     * PATTERN: Fetch Entities
+     */
+    id: 'fetch-devices',
+    name: 'Fetch Devices',
+    entities: [
+      {
+        resourceName: 'Device',
+        _type: 'ad_device',
+        _class: ['Device'],
+      },
+    ],
+    relationships: [
+      {
+        _type: 'ad_account_has_device',
+        sourceType: 'ad_account',
+        _class: RelationshipClass.HAS,
+        targetType: 'ad_device',
       },
     ],
     dependsOn: ['fetch-account'],
@@ -62,13 +87,32 @@ export const accessSpec: StepSpec<IntegrationConfig>[] = [
     entities: [],
     relationships: [
       {
-        _type: 'acme_group_has_user',
-        sourceType: 'acme_group',
+        _type: 'ad_group_has_user',
+        sourceType: 'ad_group',
         _class: RelationshipClass.HAS,
-        targetType: 'acme_user',
+        targetType: 'ad_user',
       },
     ],
     dependsOn: ['fetch-groups', 'fetch-users'],
+    implemented: true,
+  },
+  {
+    /**
+     * ENDPOINT: n/a
+     * PATTERN: Build Child Relationships
+     */
+    id: 'build-group-group-relationships',
+    name: 'Build Group -> Group Relationships',
+    entities: [],
+    relationships: [
+      {
+        _type: 'ad_group_has_group',
+        sourceType: 'ad_group',
+        _class: RelationshipClass.HAS,
+        targetType: 'ad_group',
+      },
+    ],
+    dependsOn: ['fetch-groups'],
     implemented: true,
   },
 ];

@@ -10,12 +10,17 @@ if (process.env.LOAD_ENV) {
     path: path.join(__dirname, '../.env'),
   });
 }
-const DEFAULT_CLIENT_ID = 'dummy-acme-client-id';
-const DEFAULT_CLIENT_SECRET = 'dummy-acme-client-secret';
+
+const DEFAULT_CLIENT_DOMAIN = 'cn=root';
+const DEFAULT_CLIENT_URL = 'ldap://127.0.0.1:1389';
+const DEFAULT_CLIENT_USERNAME = 'cn=root';
+const DEFAULT_CLIENT_PASSWORD = 'secret';
 
 export const integrationConfig: IntegrationConfig = {
-  clientId: process.env.CLIENT_ID || DEFAULT_CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET || DEFAULT_CLIENT_SECRET,
+  clientDomain: process.env.CLIENT_DOMAIN || DEFAULT_CLIENT_DOMAIN,
+  clientUrl: process.env.CLIENT_URL || DEFAULT_CLIENT_URL,
+  clientUsername: process.env.CLIENT_USERNAME || DEFAULT_CLIENT_USERNAME,
+  clientPassword: process.env.CLIENT_PASSWORD || DEFAULT_CLIENT_PASSWORD,
 };
 
 export function buildStepTestConfigForStep(stepId: string): StepTestConfig {

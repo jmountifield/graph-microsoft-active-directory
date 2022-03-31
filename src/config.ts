@@ -13,20 +13,26 @@ import { createAPIClient } from './client';
  * When executing the integration in a development environment, these values may
  * be provided in a `.env` file with environment variables. For example:
  *
- * - `CLIENT_ID=123` becomes `instance.config.clientId = '123'`
- * - `CLIENT_SECRET=abc` becomes `instance.config.clientSecret = 'abc'`
+ * - `CLIENT_USERNAME=123` becomes `instance.config.clientId = '123'`
+ * - `CLIENT_PASSWORD=abc` becomes `instance.config.clientSecret = 'abc'`
  *
  * Environment variables are NOT used when the integration is executing in a
  * managed environment. For example, in JupiterOne, users configure
  * `instance.config` in a UI.
  */
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
-  clientId: {
+  clientUrl: {
     type: 'string',
   },
-  clientSecret: {
+  clientUsername: {
+    type: 'string',
+  },
+  clientPassword: {
     type: 'string',
     mask: true,
+  },
+  clientDomain: {
+    type: 'string',
   },
 };
 
@@ -36,14 +42,24 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
  */
 export interface IntegrationConfig extends IntegrationInstanceConfig {
   /**
-   * The provider API client ID used to authenticate requests.
+   * The provider API client url used to authenticate requests.
    */
-  clientId: string;
+  clientUrl: string;
 
   /**
-   * The provider API client secret used to authenticate requests.
+   * The provider API client username used to authenticate requests.
    */
-  clientSecret: string;
+  clientUsername: string;
+
+  /**
+   * The provider API client password used to authenticate requests.
+   */
+  clientPassword: string;
+
+  /**
+   * The provider API client domain used to authenticate requests.
+   */
+  clientDomain: string;
 }
 
 export async function validateInvocation(
@@ -51,9 +67,14 @@ export async function validateInvocation(
 ) {
   const { config } = context.instance;
 
-  if (!config.clientId || !config.clientSecret) {
+  if (
+    !config.clientUrl ||
+    !config.clientUsername ||
+    !config.clientPassword ||
+    !config.clientDomain
+  ) {
     throw new IntegrationValidationError(
-      'Config requires all of {clientId, clientSecret}',
+      'Config requires all of {clientUrl, clientUsername, clientPassword, clientDomain}',
     );
   }
 
