@@ -7,39 +7,74 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 import { Entities } from '../constants';
-import { AcmeGroup, AcmeUser } from '../../types';
+import {
+  ActiveDirectoryComputer,
+  ActiveDirectoryGroup,
+  ActiveDirectoryUser,
+} from '../../types';
+import { parseLdapDatetime } from '../../ldap';
 
-export function createUserEntity(user: AcmeUser): Entity {
+export function getGroupId(dn: string): string {
+  return `ad_group:${dn}`;
+}
+
+export function createUserEntity(user: ActiveDirectoryUser): Entity {
+  const id = `ad_user:${user.dn}`;
+
   return createIntegrationEntity({
     entityData: {
       source: user,
       assign: {
         _type: Entities.USER._type,
         _class: Entities.USER._class,
-        _key: user.id,
-        username: 'testusername',
-        email: 'test@test.com',
-        active: true, // this is a required property
-        // This is a custom property that is not a part of the data model class
-        // hierarchy. See: https://github.com/JupiterOne/data-model/blob/master/src/schemas/User.json
-        firstName: 'John',
+        _key: id,
+        username: user.name,
+        active: true,
+        description: user.description,
+        createdOn: parseLdapDatetime(user.whenCreated),
+        updatedOn: parseLdapDatetime(user.whenChanged),
       },
     },
   });
 }
 
-export function createGroupEntity(group: AcmeGroup): Entity {
+export function createGroupEntity(group: ActiveDirectoryGroup): Entity {
+  const id = getGroupId(group.dn);
+
   return createIntegrationEntity({
     entityData: {
       source: group,
       assign: {
         _type: Entities.GROUP._type,
         _class: Entities.GROUP._class,
-        _key: group.id,
-        email: 'testgroup@test.com',
-        // This is a custom property that is not a part of the data model class
-        // hierarchy. See: https://github.com/JupiterOne/data-model/blob/master/src/schemas/UserGroup.json
-        logoLink: 'https://test.com/logo.png',
+        _key: id,
+        name: group.name,
+        description: group.description,
+        createdOn: parseLdapDatetime(group.whenCreated),
+        updatedOn: parseLdapDatetime(group.whenChanged),
+      },
+    },
+  });
+}
+
+export function createDeviceEntity(computer: ActiveDirectoryComputer): Entity {
+  const id = `ad_device:${computer.dn}`;
+
+  return createIntegrationEntity({
+    entityData: {
+      source: computer,
+      assign: {
+        _type: Entities.DEVICE._type,
+        _class: Entities.DEVICE._class,
+        _key: id,
+        category: computer.instanceType,
+        make: 'N/A',
+        model: 'N/A',
+        serial: 'N/A',
+        operatingSystem: computer.operatingSystem,
+        operatingSystemVersion: computer.operatingSystemVersion,
+        createdOn: parseLdapDatetime(computer.whenCreated),
+        updatedOn: parseLdapDatetime(computer.whenChanged),
       },
     },
   });
@@ -66,6 +101,17 @@ export function createAccountGroupRelationship(
   });
 }
 
+export function createAccountDeviceRelationship(
+  account: Entity,
+  device: Entity,
+): Relationship {
+  return createDirectRelationship({
+    _class: RelationshipClass.HAS,
+    from: account,
+    to: device,
+  });
+}
+
 export function createGroupUserRelationship(
   group: Entity,
   user: Entity,
@@ -74,5 +120,16 @@ export function createGroupUserRelationship(
     _class: RelationshipClass.HAS,
     from: group,
     to: user,
+  });
+}
+
+export function createGroupGroupRelationship(
+  from: Entity,
+  to: Entity,
+): Relationship {
+  return createDirectRelationship({
+    _class: RelationshipClass.HAS,
+    from: from,
+    to: to,
   });
 }
