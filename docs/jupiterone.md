@@ -1,4 +1,4 @@
-# Integration with JupiterOne
+# Microsoft Active Directory Integration with JupiterOne
 
 ## Microsoft Active Directory + JupiterOne Integration Benefits
 
