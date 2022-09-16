@@ -1,4 +1,4 @@
-# Microsoft Active Directory Integration with JupiterOne
+# Microsoft Active Directory
 
 ## Microsoft Active Directory + JupiterOne Integration Benefits
 
@@ -35,7 +35,7 @@ If you need help with this integration, please contact
 
 ### In JupiterOne
 
-1. From the configuration **Gear Icon**, select **Integrations**.
+1. From the top navigation of the J1 Search homepage, select **Integrations**.
 2. Scroll to the **Microsoft Active Directory** integration tile and click it.
 3. Click the **Add Configuration** button and configure the following settings:
 
@@ -53,7 +53,7 @@ If you need help with this integration, please contact
 
 # How to Uninstall
 
-1. From the configuration **Gear Icon**, select **Integrations**.
+1. From the top navigation of the J1 Search homepage, select **Integrations**.
 2. Scroll to the **Microsoft Active Directory** integration tile and click it.
 3. Identify and click the **integration to delete**.
 4. Click the **trash can** icon.
