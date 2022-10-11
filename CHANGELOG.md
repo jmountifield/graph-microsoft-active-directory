@@ -13,6 +13,10 @@ and this project adheres to
 ### Changed
 
 - Renamed config and environment variables to align with use
+  - CLIENT_URL -> LDAP_URL
+  - CLIENT_DOMAIN -> BASE_DN
+  - CLIENT_USERNAME -> USERNAME
+  - CLIENT_PASSWORD -> PASSWORD
 - Updated jupiterone.md and development.md docs
 - Updated `ldapts` package
 - Changed LDAP user query
