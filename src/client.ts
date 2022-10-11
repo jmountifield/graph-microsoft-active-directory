@@ -76,9 +76,9 @@ export class APIClient {
 }
 
 export function createAPIClient(config: IntegrationConfig): APIClient {
-  if (process.env.NODE_ENV === 'test') {
-    return new APIClient(new LdapTestAdapter());
-  }
+  // if (process.env.NODE_ENV === 'test') {
+  //   return new APIClient(new LdapTestAdapter());
+  // }
 
   return new APIClient(
     new LdapTSAdapter({
