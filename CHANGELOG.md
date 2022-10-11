@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 2.1.0 - 2022-10-11
+
+### Changed
+
+- Enabled de-referencing of aliases. Believed it will resolve Error 0xa (10).
+- Added exists check and logging around duplicate keys.
+
 ## 2.0.0 - 2022-10-11
 
 ### Changed
