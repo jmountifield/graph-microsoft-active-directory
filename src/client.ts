@@ -12,9 +12,6 @@ export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
  * An APIClient maintains authentication state and provides an interface to
  * third party data APIs.
  *
- * It is recommended that integrations wrap provider data APIs to provide a
- * place to handle error responses and implement common patterns for iterating
- * resources.
  */
 export class APIClient {
   constructor(private readonly client: LdapClient) {}
@@ -35,7 +32,7 @@ export class APIClient {
     iteratee: ResourceIteratee<ActiveDirectoryUser>,
   ): Promise<void> {
     const users: ActiveDirectoryUser[] = await this.client.search(
-      'objectCategory=User',
+      '(&(objectClass=user)(objectCategory=person))',
     );
 
     for (const user of users) {
@@ -85,10 +82,10 @@ export function createAPIClient(config: IntegrationConfig): APIClient {
 
   return new APIClient(
     new LdapTSAdapter({
-      domain: config.clientDomain,
-      url: config.clientUrl,
-      username: config.clientUsername,
-      password: config.clientPassword,
+      baseDN: config.baseDN,
+      url: config.ldapUrl,
+      username: config.username,
+      password: config.password,
     }),
   );
 }

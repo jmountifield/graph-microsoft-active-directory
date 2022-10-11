@@ -17,7 +17,7 @@
 
 ## Requirements
 
-- You must create an Microsoft Active Directory account capable of executing
+- You must create a Microsoft Active Directory account capable of executing
   Active Directory read queries.
 - You must open the LDAP port on your server to allow queries to be executed.
 - You must have permission in JupiterOne to install new integrations.
@@ -32,6 +32,15 @@ If you need help with this integration, please contact
 ### In Microsoft Active Directory
 
 1. Create an Active Directory user capable of executing read queries.
+2. Obtain the following information:
+   - Client Username - the username created in previous step
+     - i.e. user@corp.example.com
+   - Client Password - the password for the Client Username
+   - LDAP URL - the URL of the LDAP server
+     - i.e. ldap://10.10.10.10
+   - Base DN - The base Distinguished Name of the subtree to be used in
+     authentication and searches.
+     - i.e. dc=corp,dc=example,dc=com
 
 ### In JupiterOne
 
@@ -46,8 +55,8 @@ If you need help with this integration, please contact
   the integration instance.
 - Select a **Polling Interval** that you feel is sufficient for your monitoring
   needs. You may leave this as `DISABLED` and manually execute the integration.
-- {{additional provider-specific settings}} Enter the **Microsoft Active
-  Directory API Key** generated for use by JupiterOne.
+- Enter the information (username, password, LDAP URL, base DN) obtained in the
+  previous section.
 
 4. Click **Create Configuration** once all values are provided.
 
@@ -92,6 +101,7 @@ The following relationships are created:
 | `ad_account`          | **HAS**               | `ad_device`           |
 | `ad_account`          | **HAS**               | `ad_group`            |
 | `ad_account`          | **HAS**               | `ad_user`             |
+| `ad_group`            | **HAS**               | `ad_group`            |
 | `ad_group`            | **HAS**               | `ad_user`             |
 
 <!--

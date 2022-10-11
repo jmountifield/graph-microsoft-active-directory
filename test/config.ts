@@ -11,16 +11,16 @@ if (process.env.LOAD_ENV) {
   });
 }
 
-const DEFAULT_CLIENT_DOMAIN = 'cn=root';
-const DEFAULT_CLIENT_URL = 'ldap://127.0.0.1:1389';
-const DEFAULT_CLIENT_USERNAME = 'cn=root';
-const DEFAULT_CLIENT_PASSWORD = 'secret';
+const DEFAULT_BASE_DN = 'cn=root';
+const DEFAULT_LDAP_URL = 'ldap://127.0.0.1:1389';
+const DEFAULT_USERNAME = 'cn=root';
+const DEFAULT_PASSWORD = 'secret';
 
 export const integrationConfig: IntegrationConfig = {
-  clientDomain: process.env.CLIENT_DOMAIN || DEFAULT_CLIENT_DOMAIN,
-  clientUrl: process.env.CLIENT_URL || DEFAULT_CLIENT_URL,
-  clientUsername: process.env.CLIENT_USERNAME || DEFAULT_CLIENT_USERNAME,
-  clientPassword: process.env.CLIENT_PASSWORD || DEFAULT_CLIENT_PASSWORD,
+  baseDN: process.env.BASE_DN || DEFAULT_BASE_DN,
+  ldapUrl: process.env.LDAP_URL || DEFAULT_LDAP_URL,
+  username: process.env.USERNAME || DEFAULT_USERNAME,
+  password: process.env.PASSWORD || DEFAULT_PASSWORD,
 };
 
 export function buildStepTestConfigForStep(stepId: string): StepTestConfig {

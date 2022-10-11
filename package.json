@@ -38,6 +38,6 @@
     "@jupiterone/integration-sdk-testing": "^8.4.1"
   },
   "dependencies": {
-    "ldapts": "^3.2.3"
+    "ldapts": "^4.2.0"
   }
 }

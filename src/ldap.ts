@@ -20,7 +20,7 @@ interface LdapAdapterConfig {
   url: string;
   username: string;
   password: string;
-  domain: string;
+  baseDN: string;
 }
 
 export class LdapTSAdapter implements LdapClient {
@@ -38,7 +38,7 @@ export class LdapTSAdapter implements LdapClient {
     try {
       await this.client.bind(this.config.username, this.config.password);
 
-      const res = await this.client.search(this.config.domain, {
+      const res = await this.client.search(this.config.baseDN, {
         filter,
       });
 
@@ -92,7 +92,10 @@ export class LdapTestAdapter implements LdapClient {
  * @param timestamp the ldap datetime string, e.g. 20220311153154.0Z
  * @returns a time value in milliseconds since epoch
  */
-export function parseLdapDatetime(timestamp: string): number {
+export function parseLdapDatetime(timestamp: string): number | undefined {
+  if (!timestamp) {
+    return;
+  }
   const [first] = timestamp.split('.');
   const yyyy = first.substring(0, 4);
   const MM = first.substring(4, 6);

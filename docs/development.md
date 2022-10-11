@@ -1,28 +1,30 @@
 # Development
 
-Add details here to give a brief overview of how to work with the provider APIs.
-Please reference any SDKs or API docs used to help build the integration here.
+To develop against a real Active Directory server, consider following this
+[AWS guide](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/ms_ad_tutorial_test_lab.html).
 
-## Prerequisites
+After following the guide, testing is currently done by cloning the git branch
+to the Windows Server via Remote Desktop and running the graph project on the
+server.
 
-Supply details about software or tooling (like maybe Docker or Terraform) that
-is needed for development here.
+To find the LDAP URL, run `nslookup` in PowerShell. The address should be
+printed:
 
-Please supply references to documentation that details how to install those
-dependencies here.
+> Default Server: corp.example.com  
+> Address: 10.0.0.126
 
-Tools like Node.js and NPM are already covered in the [README](../README.md) so
-don't bother documenting that here.
+To find the Base DN (distinguished name):
 
-## Provider account setup
+1. Open `Active Directory Users and Computers` on the Windows Server
+2. Click `View` > `Advanced Features` to enable advanced features
+3. Right click on root domain (ie corp.example.com)
+4. Click `Attribute Editor` tab
+5. Find `distinguishedName` and copy value.
 
-Please provide information about the steps needed to create an account with a
-provider. Images and references to a provider's documentation is very helpful
-for new developers picking up your work.
+To create a user:
 
-## Authentication
-
-Supply details here for information on how to authenticate with a provider so
-that developers have an idea of what's needed to hit APIs. It may be useful to
-provide explanations for each value specified in the
-[`IntegrationInstanceConfigFieldMap`](../src/config.ts).
+1. Click on the User folder found in the root Organizational Unit ie -
+   corp/Users
+2. In the action bar, click New User
+3. Provide names and a user logon name, click Next
+4. Provide a password, uncheck `User must change password at next logon`
