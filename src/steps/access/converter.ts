@@ -67,6 +67,7 @@ export function createDeviceEntity(computer: ActiveDirectoryComputer): Entity {
         _type: Entities.DEVICE._type,
         _class: Entities.DEVICE._class,
         _key: id,
+        deviceId: computer.dn,
         category: computer.instanceType,
         make: 'N/A',
         model: 'N/A',
