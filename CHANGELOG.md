@@ -15,6 +15,7 @@ and this project adheres to
 - Enabled de-referencing of aliases. Believed it will resolve Error 0xa (10).
 - Added exists check and logging around duplicate keys.
 - Upgrade sdk-\* packages to v8.25.1
+- Added `deviceId` to `ad_device` entity
 
 ## 2.0.0 - 2022-10-11
 
@@ -36,7 +37,7 @@ and this project adheres to
 Initial Microsoft Active Directory integration.
 
 - Ingest new entity `ad_account`
-- Ingest new entity `ad__user`
+- Ingest new entity `ad_user`
 - Ingest new entity `ad_group`
 - Ingest new entity `ad_device`
 
