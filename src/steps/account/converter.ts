@@ -7,7 +7,7 @@ import { IntegrationConfig } from '../../config';
 import { Entities } from '../constants';
 
 export function createAccountEntity(config: IntegrationConfig): Entity {
-  const id = `ad_account:${config.clientUsername}`;
+  const id = `ad_account:${config.username}`;
 
   return createIntegrationEntity({
     entityData: {

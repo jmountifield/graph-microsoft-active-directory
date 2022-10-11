@@ -1077,10 +1077,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.7.tgz#36820945061326978c42a01e56b61cd223dfdc42"
   integrity sha512-QB5D2sqfSjCmTuWcBWyJ+/44bcjO7VbjSbOE0ucoVbAsSNQc4Lt6QkgkVXkTDwkL4z/beecZNDvVX15D4P8Jbw==
 
-"@types/node@>=12.13":
-  version "17.0.23"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.23.tgz#3b41a6e643589ac6442bdbd7a4a3ded62f33f7da"
-  integrity sha512-UxDxWn7dl97rKVeVS61vErvw086aCYhDLyvRQZ5Rk65rZKepaFdm53GeqXaKBuOhED4e9uWq34IC3TdSdJJ2Gw==
+"@types/node@>=14":
+  version "18.8.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.8.3.tgz#ce750ab4017effa51aed6a7230651778d54e327c"
+  integrity sha512-0os9vz6BpGwxGe9LOhgP/ncvYN5Tx1fNcd2TM3rD/aCGBkysb+ZWpXEocG24h6ZzOi13+VB8HndAQFezsSOw1w==
 
 "@types/node@^14.0.5":
   version "14.17.33"
@@ -3529,18 +3529,18 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-ldapts@^3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/ldapts/-/ldapts-3.2.3.tgz#d47acc194d523f6b9248559a276fabf687b4a3c5"
-  integrity sha512-MdEvPx98lG3nhK47oeSFwn+4n7zrrLDVyeH3F1JukErWkxdKi2YKv/dGvHIse2XUxFigJYzMUzXoO/9h8qacpQ==
+ldapts@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/ldapts/-/ldapts-4.2.0.tgz#6d7cda841de9595b9ce8772ed2e4fc5587657f27"
+  integrity sha512-ePskiDgeMYs22XeXisXd+lXNvNTH4TKkhmeQd3hQs0od2/KiXTAPup2l1yPmOOXLBbZsab5G5L+YpvSXF0V8/w==
   dependencies:
     "@types/asn1" ">=0.2.0"
-    "@types/node" ">=12.13"
+    "@types/node" ">=14"
     "@types/uuid" ">=8"
     asn1 "~0.2.6"
     debug "~4.3.4"
     strict-event-emitter-types "~2.0.0"
-    uuid "~8.3.2"
+    uuid "~9.0.0"
 
 leven@^3.1.0:
   version "3.1.0"
@@ -4947,10 +4947,15 @@ uuid@^7.0.3:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.3.tgz#c5c9f2c8cf25dc0a372c4df1441c41f5bd0c680b"
   integrity sha512-DPSke0pXhTZgoF/d+WSt2QaKMCFSfx7QegxEWT+JOuHF5aWrKEn0G+ztjuJg/gG8/ItK+rbPCD/yNv8yyih6Cg==
 
-uuid@^8.3.2, uuid@~8.3.2:
+uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+uuid@~9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-9.0.0.tgz#592f550650024a38ceb0c562f2f6aa435761efb5"
+  integrity sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"

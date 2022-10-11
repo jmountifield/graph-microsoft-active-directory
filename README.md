@@ -28,8 +28,7 @@ with JupiterOne in the [integration documentation](docs/jupiterone.md).
 
    The `.env` file is loaded into `process.env` before the integration code is
    executed. This file is not required should you configure the environment
-   another way. `.gitignore` is configured to to avoid commiting the `.env`
-   file.
+   another way. `.gitignore` is configured to avoid committing the `.env` file.
 
 ### Running the integration
 
@@ -53,7 +52,7 @@ for a deep dive into the mechanics of how integrations work.
 See [docs/development.md](docs/development.md) for any additional details about
 developing this integration.
 
-## Testing the integation
+## Testing the integration
 
 Ideally, all major calls to the API and converter functions would be tested. You
 can run the tests with `yarn test`, and you can run the tests as they execute in
@@ -101,5 +100,5 @@ out.
 ```
 
 After the PR is merged to the main branch, the
-[**Build** github workflow](./.github/workflows/build.yml) should run the
+[**Build** GitHub workflow](./.github/workflows/build.yml) should run the
 **Publish** step to publish this project to NPM.

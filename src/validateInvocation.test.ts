@@ -21,7 +21,7 @@ describe('#validateInvocation', () => {
     });
 
     await expect(validateInvocation(executionContext)).rejects.toThrow(
-      'Config requires all of {clientUrl, clientUsername, clientPassword, clientDomain}',
+      'Config requires all of {ldapUrl, baseDN, username, password}',
     );
   });
 
@@ -54,10 +54,10 @@ describe('#validateInvocation', () => {
      * error messaging is expected and clear to end-users
      */
     describe('invalid user credentials', () => {
-      test.skip('should throw if clientUrl is invalid', async () => {
+      test.skip('should throw if ldapUrl is invalid', async () => {
         recording = setupProjectRecording({
           directory: __dirname,
-          name: 'client-url-auth-error',
+          name: 'ldap-url-auth-error',
           // Many authorization failures will return non-200 responses
           // and `recordFailedRequest: true` is needed to capture these responses
           options: {
@@ -68,7 +68,7 @@ describe('#validateInvocation', () => {
         const executionContext = createMockExecutionContext({
           instanceConfig: {
             ...integrationConfig,
-            clientUrl: 'INVALID',
+            ldapUrl: 'INVALID',
           },
         });
 
@@ -79,10 +79,10 @@ describe('#validateInvocation', () => {
         );
       });
 
-      test.skip('should throw if clientDomain is invalid', async () => {
+      test.skip('should throw if baseDN is invalid', async () => {
         recording = setupProjectRecording({
           directory: __dirname,
-          name: 'client-domain-auth-error',
+          name: 'basedn-auth-error',
           // Many authorization failures will return non-200 responses
           // and `recordFailedRequest: true` is needed to capture these responses
           options: {
@@ -93,8 +93,8 @@ describe('#validateInvocation', () => {
         const executionContext = createMockExecutionContext({
           instanceConfig: {
             ...integrationConfig,
-            clientUrl: 'ldap://localhost',
-            clientDomain: 'INVALID',
+            ldapUrl: 'ldap://localhost',
+            baseDN: 'INVALID',
           },
         });
 
@@ -105,10 +105,10 @@ describe('#validateInvocation', () => {
         );
       });
 
-      test.skip('should throw if clientUsername is invalid', async () => {
+      test.skip('should throw if username is invalid', async () => {
         recording = setupProjectRecording({
           directory: __dirname,
-          name: 'client-username-auth-error',
+          name: 'username-auth-error',
           // Many authorization failures will return non-200 responses
           // and `recordFailedRequest: true` is needed to capture these responses
           options: {
@@ -119,8 +119,8 @@ describe('#validateInvocation', () => {
         const executionContext = createMockExecutionContext({
           instanceConfig: {
             ...integrationConfig,
-            clientUrl: 'ldap://localhost',
-            clientUsername: 'INVALID',
+            ldapUrl: 'ldap://localhost',
+            username: 'INVALID',
           },
         });
 
@@ -131,10 +131,10 @@ describe('#validateInvocation', () => {
         );
       });
 
-      test.skip('should throw if clientPassword is invalid', async () => {
+      test.skip('should throw if password is invalid', async () => {
         recording = setupProjectRecording({
           directory: __dirname,
-          name: 'client-password-auth-error',
+          name: 'password-auth-error',
           // Many authorization failures will return non-200 responses
           // and `recordFailedRequest: true` is needed to capture these responses
           options: {
@@ -145,8 +145,8 @@ describe('#validateInvocation', () => {
         const executionContext = createMockExecutionContext({
           instanceConfig: {
             ...integrationConfig,
-            clientUrl: 'ldap://localhost',
-            clientPassword: 'INVALID',
+            ldapUrl: 'ldap://localhost',
+            password: 'INVALID',
           },
         });
 

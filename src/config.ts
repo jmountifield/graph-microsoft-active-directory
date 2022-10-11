@@ -7,31 +7,20 @@ import {
 import { createAPIClient } from './client';
 
 /**
- * A type describing the configuration fields required to execute the
- * integration for a specific account in the data provider.
- *
- * When executing the integration in a development environment, these values may
- * be provided in a `.env` file with environment variables. For example:
- *
- * - `CLIENT_USERNAME=123` becomes `instance.config.clientId = '123'`
- * - `CLIENT_PASSWORD=abc` becomes `instance.config.clientSecret = 'abc'`
- *
- * Environment variables are NOT used when the integration is executing in a
- * managed environment. For example, in JupiterOne, users configure
- * `instance.config` in a UI.
+ * Config fields for the Microsoft Active Directory (on-prem version).
  */
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
-  clientUrl: {
+  username: {
     type: 'string',
   },
-  clientUsername: {
-    type: 'string',
-  },
-  clientPassword: {
+  password: {
     type: 'string',
     mask: true,
   },
-  clientDomain: {
+  ldapUrl: {
+    type: 'string',
+  },
+  baseDN: {
     type: 'string',
   },
 };
@@ -42,24 +31,27 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
  */
 export interface IntegrationConfig extends IntegrationInstanceConfig {
   /**
-   * The provider API client url used to authenticate requests.
+   * The URL of the provider LDAP server.
+   * ie - ldap://127.0.0.1
    */
-  clientUrl: string;
+  ldapUrl: string;
 
   /**
-   * The provider API client username used to authenticate requests.
+   * The Active Directory base Distinguished Name.
+   * This is used as the entry point for searches.
+   * ie - dc=activedir,dc=com
    */
-  clientUsername: string;
+  baseDN: string;
 
   /**
-   * The provider API client password used to authenticate requests.
+   * An Active Directory username.
    */
-  clientPassword: string;
+  username: string;
 
   /**
-   * The provider API client domain used to authenticate requests.
+   * The Active Directory password.
    */
-  clientDomain: string;
+  password: string;
 }
 
 export async function validateInvocation(
@@ -68,13 +60,13 @@ export async function validateInvocation(
   const { config } = context.instance;
 
   if (
-    !config.clientUrl ||
-    !config.clientUsername ||
-    !config.clientPassword ||
-    !config.clientDomain
+    !config.ldapUrl ||
+    !config.baseDN ||
+    !config.username ||
+    !config.password
   ) {
     throw new IntegrationValidationError(
-      'Config requires all of {clientUrl, clientUsername, clientPassword, clientDomain}',
+      'Config requires all of {ldapUrl, baseDN, username, password}',
     );
   }
 
