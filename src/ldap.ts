@@ -66,7 +66,7 @@ export class LdapTSAdapter implements LdapClient {
 
 export class LdapTestAdapter implements LdapClient {
   async search<T>(filter: string): Promise<T[]> {
-    if (filter === 'objectCategory=User') {
+    if (filter === '(&(objectClass=user)(objectCategory=person))') {
       return Promise.resolve(require('./steps/access/__testdata__/users.json'));
     } else if (filter === 'objectClass=Group') {
       return Promise.resolve(

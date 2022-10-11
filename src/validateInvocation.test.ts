@@ -21,7 +21,7 @@ describe('#validateInvocation', () => {
     });
 
     await expect(validateInvocation(executionContext)).rejects.toThrow(
-      'Config requires all of {ldapUrl, username, password, baseDN}',
+      'Config requires all of {ldapUrl, baseDN, username, password}',
     );
   });
 
