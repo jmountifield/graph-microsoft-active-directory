@@ -8,6 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 2.0.0 - 2022-10-11
+
+### Changed
+
+- Renamed config and environment variables to align with use
+- Updated jupiterone.md and development.md docs
+- Updated `ldapts` package
+- Changed LDAP user query
+
 ## 1.0.0 - 2022-04-26
 
 ### Added
