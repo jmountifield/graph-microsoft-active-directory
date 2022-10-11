@@ -34,7 +34,7 @@ export async function fetchUsers({
   await apiClient.iterateUsers(async (user) => {
     const userEntity = createUserEntity(user);
 
-    if (!(await jobState.hasKey(userEntity._key))) {
+    if (!jobState.hasKey(userEntity._key)) {
       await jobState.addEntity(userEntity);
       await jobState.addRelationship(
         createAccountUserRelationship(accountEntity, userEntity),
@@ -57,7 +57,7 @@ export async function fetchGroups({
   await apiClient.iterateGroups(async (group) => {
     const groupEntity = createGroupEntity(group);
 
-    if (!(await jobState.hasKey(groupEntity._key))) {
+    if (!jobState.hasKey(groupEntity._key)) {
       await jobState.addEntity(createGroupEntity(group));
       await jobState.addRelationship(
         createAccountGroupRelationship(accountEntity, groupEntity),
@@ -83,7 +83,7 @@ export async function fetchDevices({
   await apiClient.iterateDevices(async (computer) => {
     const deviceEntity = createDeviceEntity(computer);
 
-    if (!(await jobState.hasKey(deviceEntity._key))) {
+    if (!jobState.hasKey(deviceEntity._key)) {
       await jobState.addEntity(deviceEntity);
       await jobState.addRelationship(
         createAccountGroupRelationship(accountEntity, deviceEntity),
