@@ -59,6 +59,26 @@ export async function validateInvocation(
 ) {
   const { config } = context.instance;
 
+  // Support old config values.
+  // Added Oct 2022.
+  // All 4 instances are currently disabled.
+  if (!config.ldapUrl && config.clientUrl) {
+    config.ldapUrl = config.clientUrl;
+    delete config.clientUrl;
+  }
+  if (!config.baseDN && config.clientDomain) {
+    config.baseDN = config.clientDomain;
+    delete config.clientDomain;
+  }
+  if (!config.username && config.clientUsername) {
+    config.username = config.clientUsername;
+    delete config.clientUsername;
+  }
+  if (!config.password && config.clientPassword) {
+    config.password = config.clientPassword;
+    delete config.clientPassword;
+  }
+
   if (
     !config.ldapUrl ||
     !config.baseDN ||
