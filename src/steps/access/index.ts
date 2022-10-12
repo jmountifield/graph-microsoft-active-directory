@@ -25,51 +25,72 @@ import {
 export async function fetchUsers({
   instance,
   jobState,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 
   const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
 
   await apiClient.iterateUsers(async (user) => {
-    const userEntity = await jobState.addEntity(createUserEntity(user));
+    const userEntity = createUserEntity(user);
 
-    await jobState.addRelationship(
-      createAccountUserRelationship(accountEntity, userEntity),
-    );
+    if (!jobState.hasKey(userEntity._key)) {
+      await jobState.addEntity(userEntity);
+      await jobState.addRelationship(
+        createAccountUserRelationship(accountEntity, userEntity),
+      );
+    } else {
+      logger.info({ userKey: userEntity._key }, 'Found a duplicate user key');
+    }
   });
 }
 
 export async function fetchGroups({
   instance,
   jobState,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 
   const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
 
   await apiClient.iterateGroups(async (group) => {
-    const groupEntity = await jobState.addEntity(createGroupEntity(group));
+    const groupEntity = createGroupEntity(group);
 
-    await jobState.addRelationship(
-      createAccountGroupRelationship(accountEntity, groupEntity),
-    );
+    if (!jobState.hasKey(groupEntity._key)) {
+      await jobState.addEntity(createGroupEntity(group));
+      await jobState.addRelationship(
+        createAccountGroupRelationship(accountEntity, groupEntity),
+      );
+    } else {
+      logger.info(
+        { groupKey: groupEntity._key },
+        'Found a duplicate group key',
+      );
+    }
   });
 }
 
 export async function fetchDevices({
   instance,
   jobState,
+  logger,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 
   const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
 
   await apiClient.iterateDevices(async (computer) => {
-    const deviceEntity = await jobState.addEntity(createDeviceEntity(computer));
+    const deviceEntity = createDeviceEntity(computer);
 
-    await jobState.addRelationship(
-      createAccountGroupRelationship(accountEntity, deviceEntity),
-    );
+    if (!jobState.hasKey(deviceEntity._key)) {
+      await jobState.addEntity(deviceEntity);
+      await jobState.addRelationship(
+        createAccountGroupRelationship(accountEntity, deviceEntity),
+      );
+    } else {
+      logger.info({ key: deviceEntity._key }, 'Found a duplicate device key');
+    }
   });
 }
 

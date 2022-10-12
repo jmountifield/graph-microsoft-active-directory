@@ -40,6 +40,7 @@ export class LdapTSAdapter implements LdapClient {
 
       const res = await this.client.search(this.config.baseDN, {
         filter,
+        derefAliases: 'always',
       });
 
       return res.searchEntries as unknown as T[];
