@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 2.1.1 - 2022-10-12
+
+### Changed
+
+- Added support for original config values.
+
 ## 2.1.0 - 2022-10-11
 
 ### Changed
