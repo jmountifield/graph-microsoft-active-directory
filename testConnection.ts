@@ -144,6 +144,24 @@ void (async () => {
 
     attemptWrapper(
       [
+        '2.3 -----------------------------------------------------',
+        `Testing ldap-authentication via username & password`,
+      ],
+      () =>
+        authenticate({
+          ldapOpts: {
+            url: config.ldapUrl,
+            tlsOptions: {
+              rejectUnauthorized: false,
+            },
+          },
+          userPassword: config.password,
+          userDn: config.username,
+        }),
+    ),
+
+    attemptWrapper(
+      [
         '3.0 -----------------------------------------------------',
         `Testing ldapjs using username & password`,
       ],
