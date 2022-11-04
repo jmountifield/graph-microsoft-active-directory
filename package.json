@@ -27,7 +27,8 @@
     "test:env": "LOAD_ENV=1 yarn test",
     "test:ci": "yarn format:check && yarn lint && yarn type-check && yarn test",
     "build": "tsc -p tsconfig.dist.json --declaration && cp README.md dist/README.md && cp -r jupiterone/ dist/jupiterone/",
-    "prepush": "yarn format:check && yarn lint && yarn type-check && jest --changedSince main"
+    "prepush": "yarn format:check && yarn lint && yarn type-check && jest --changedSince main",
+    "test:connection": "ts-node ./testConnection.ts"
   },
   "peerDependencies": {
     "@jupiterone/integration-sdk-core": "^8.25.1"
@@ -35,7 +36,9 @@
   "devDependencies": {
     "@jupiterone/integration-sdk-core": "^8.25.1",
     "@jupiterone/integration-sdk-dev-tools": "^8.25.1",
-    "@jupiterone/integration-sdk-testing": "^8.25.1"
+    "@jupiterone/integration-sdk-testing": "^8.25.1",
+    "ldap-authentication": "^2.3.2",
+    "ldapjs": "^2.3.3"
   },
   "dependencies": {
     "ldapts": "^4.2.0"
