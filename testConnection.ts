@@ -34,7 +34,7 @@ ldapjsClient.on('error', (e) => {
   console.error('ldapjs:', e);
 });
 
-(async () => {
+void (async () => {
   const safeConfig = Object.assign({}, config);
   // @ts-ignore
   delete safeConfig.password;
