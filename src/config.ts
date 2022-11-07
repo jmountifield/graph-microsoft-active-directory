@@ -10,10 +10,10 @@ import { createAPIClient } from './client';
  * Config fields for the Microsoft Active Directory (on-prem version).
  */
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
-  username: {
+  adUsername: {
     type: 'string',
   },
-  password: {
+  adPassword: {
     type: 'string',
     mask: true,
   },
@@ -45,13 +45,15 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
 
   /**
    * An Active Directory username.
+   * NOTE: this cannot be renamed to username.
+   *       Env var USERNAME not usable on Windows
    */
-  username: string;
+  adUsername: string;
 
   /**
    * The Active Directory password.
    */
-  password: string;
+  adPassword: string;
 }
 
 export async function validateInvocation(
@@ -78,15 +80,25 @@ export async function validateInvocation(
     config.password = config.clientPassword;
     delete config.clientPassword;
   }
+  // Support 2nd gen config values
+  // Added Nov 2022 due to issue on Windows
+  if (!config.adUsername && config.username) {
+    config.adUsername = config.username;
+    delete config.username;
+  }
+  if (!config.adPassword && config.password) {
+    config.adPassword = config.password;
+    delete config.password;
+  }
 
   if (
     !config.ldapUrl ||
     !config.baseDN ||
-    !config.username ||
-    !config.password
+    !config.adUsername ||
+    !config.adPassword
   ) {
     throw new IntegrationValidationError(
-      'Config requires all of {ldapUrl, baseDN, username, password}',
+      'Config requires all of {ldapUrl, baseDN, adUsername, adPassword}',
     );
   }
 
