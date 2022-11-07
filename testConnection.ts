@@ -10,14 +10,14 @@ dotenv.config({
 
 const DEFAULT_BASE_DN = 'cn=root';
 const DEFAULT_LDAP_URL = 'ldap://127.0.0.1:1389';
-const DEFAULT_USERNAME = 'cn=root';
+const DEFAULT_USERNAME = 'cn@root.com';
 const DEFAULT_PASSWORD = 'secret';
 
 const config = {
   ldapUrl: process.env.LDAP_URL || DEFAULT_LDAP_URL,
   baseDN: process.env.BASE_DN || DEFAULT_BASE_DN,
-  username: process.env.USERNAME || DEFAULT_USERNAME,
-  password: process.env.PASSWORD || DEFAULT_PASSWORD,
+  username: process.env.AD_USERNAME || DEFAULT_USERNAME,
+  password: process.env.AD_PASSWORD || DEFAULT_PASSWORD,
   adminDn: process.env.ADMIN_DN,
   adminPassword: process.env.ADMIN_PASSWORD,
   userDN: process.env.USER_DN,
@@ -260,12 +260,16 @@ async function attemptWrapper(
     result = e;
   }
 
-  logs.forEach((log) => {
+  logs.forEach((log, index) => {
+    if (index === 0) {
+      console.log('\n');
+    }
     console.log(log);
   });
   if (isError) {
-    console.error(result);
+    console.error('Failed!');
   } else {
-    console.log(result);
+    console.log('Success!');
   }
+  console.log(JSON.stringify(result).substring(0, 150));
 }

@@ -45,6 +45,8 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
 
   /**
    * An Active Directory username.
+   * NOTE: this cannot be renamed to username.
+   *       Env var USERNAME not usable on Windows
    */
   adUsername: string;
 
