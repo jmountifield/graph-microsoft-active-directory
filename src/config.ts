@@ -80,6 +80,16 @@ export async function validateInvocation(
     config.password = config.clientPassword;
     delete config.clientPassword;
   }
+  // Support 2nd gen config values
+  // Added Nov 2022 due to issue on Windows
+  if (!config.adUsername && config.username) {
+    config.adUsername = config.username;
+    delete config.username;
+  }
+  if (!config.adPassword && config.password) {
+    config.adPassword = config.password;
+    delete config.password;
+  }
 
   if (
     !config.ldapUrl ||
