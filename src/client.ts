@@ -84,8 +84,8 @@ export function createAPIClient(config: IntegrationConfig): APIClient {
     new LdapTSAdapter({
       baseDN: config.baseDN,
       url: config.ldapUrl,
-      username: config.username,
-      password: config.password,
+      username: config.adUsername,
+      password: config.adPassword,
     }),
   );
 }

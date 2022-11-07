@@ -10,10 +10,10 @@ import { createAPIClient } from './client';
  * Config fields for the Microsoft Active Directory (on-prem version).
  */
 export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
-  username: {
+  adUsername: {
     type: 'string',
   },
-  password: {
+  adPassword: {
     type: 'string',
     mask: true,
   },
@@ -46,12 +46,12 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
   /**
    * An Active Directory username.
    */
-  username: string;
+  adUsername: string;
 
   /**
    * The Active Directory password.
    */
-  password: string;
+  adPassword: string;
 }
 
 export async function validateInvocation(
@@ -62,11 +62,11 @@ export async function validateInvocation(
   if (
     !config.ldapUrl ||
     !config.baseDN ||
-    !config.username ||
-    !config.password
+    !config.adUsername ||
+    !config.adPassword
   ) {
     throw new IntegrationValidationError(
-      'Config requires all of {ldapUrl, baseDN, username, password}',
+      'Config requires all of {ldapUrl, baseDN, adUsername, adPassword}',
     );
   }
 

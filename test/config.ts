@@ -19,8 +19,8 @@ const DEFAULT_PASSWORD = 'secret';
 export const integrationConfig: IntegrationConfig = {
   baseDN: process.env.BASE_DN || DEFAULT_BASE_DN,
   ldapUrl: process.env.LDAP_URL || DEFAULT_LDAP_URL,
-  username: process.env.USERNAME || DEFAULT_USERNAME,
-  password: process.env.PASSWORD || DEFAULT_PASSWORD,
+  adUsername: process.env.AD_USERNAME || DEFAULT_USERNAME,
+  adPassword: process.env.AD_PASSWORD || DEFAULT_PASSWORD,
 };
 
 export function buildStepTestConfigForStep(stepId: string): StepTestConfig {
