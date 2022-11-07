@@ -8,6 +8,23 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.0.0 - 2022-11-07
+
+### Changed
+
+- Renamed config and environment variables to fix Windows issue.
+  - USERNAME -> AD_USERNAME
+  - PASSWORD -> AD_PASSWORD
+
+### Added
+
+- Introduced `yarn test:connection` to enable quick testing of credentials and
+  LDAP connections. It uses the existing `.env` file with the following new
+  values (optional):
+  1. ADMIN_DN=uid=admin,ou=system
+  2. ADMIN_PASSWORD=pass
+  3. USER_DN=uid=user,ou=corp
+
 ## 2.1.1 - 2022-10-12
 
 ### Changed
