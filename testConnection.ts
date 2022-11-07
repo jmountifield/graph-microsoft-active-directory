@@ -12,12 +12,14 @@ const DEFAULT_BASE_DN = 'cn=root';
 const DEFAULT_LDAP_URL = 'ldap://127.0.0.1:1389';
 const DEFAULT_USERNAME = 'cn@root.com';
 const DEFAULT_PASSWORD = 'secret';
+const DEFAULT_AD_VERBOSE = true;
 
 const config = {
   ldapUrl: process.env.LDAP_URL || DEFAULT_LDAP_URL,
   baseDN: process.env.BASE_DN || DEFAULT_BASE_DN,
   username: process.env.AD_USERNAME || DEFAULT_USERNAME,
   password: process.env.AD_PASSWORD || DEFAULT_PASSWORD,
+  verbose: process.env.AD_VERBOSE || DEFAULT_AD_VERBOSE,
   adminDn: process.env.ADMIN_DN,
   adminPassword: process.env.ADMIN_PASSWORD,
   userDN: process.env.USER_DN,
@@ -271,5 +273,10 @@ async function attemptWrapper(
   } else {
     console.log('Success!');
   }
-  console.log(JSON.stringify(result).substring(0, 150));
+
+  if (config.verbose) {
+    console.log(result);
+  } else {
+    console.log(JSON.stringify(result).substring(0, 150));
+  }
 }
