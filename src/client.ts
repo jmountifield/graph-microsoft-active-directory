@@ -31,13 +31,10 @@ export class APIClient {
   public async iterateUsers(
     iteratee: ResourceIteratee<ActiveDirectoryUser>,
   ): Promise<void> {
-    const users: ActiveDirectoryUser[] = await this.client.search(
+    await this.client.searchWithPagination(
       '(&(objectClass=user)(objectCategory=person))',
+      iteratee,
     );
-
-    for (const user of users) {
-      await iteratee(user);
-    }
   }
 
   /**
@@ -48,13 +45,7 @@ export class APIClient {
   public async iterateGroups(
     iteratee: ResourceIteratee<ActiveDirectoryGroup>,
   ): Promise<void> {
-    const groups: ActiveDirectoryGroup[] = await this.client.search(
-      'objectClass=Group',
-    );
-
-    for (const group of groups) {
-      await iteratee(group);
-    }
+    await this.client.searchWithPagination('objectClass=Group', iteratee);
   }
 
   /**
@@ -65,13 +56,7 @@ export class APIClient {
   public async iterateDevices(
     iteratee: ResourceIteratee<ActiveDirectoryComputer>,
   ): Promise<void> {
-    const devices: ActiveDirectoryComputer[] = await this.client.search(
-      'objectClass=Computer',
-    );
-
-    for (const device of devices) {
-      await iteratee(device);
-    }
+    await this.client.searchWithPagination('objectClass=Computer', iteratee);
   }
 }
 

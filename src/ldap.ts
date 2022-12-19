@@ -1,6 +1,9 @@
 import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
 import * as ldapts from 'ldapts';
+import { PagedResultsControl } from 'ldapts';
+import { ResourceIteratee } from './client';
 
+const PAGE_SIZE = 100;
 export interface LdapClient {
   /**
    * Searches active directory for resources using the provided filter.
@@ -9,6 +12,11 @@ export interface LdapClient {
    * @returns all matching resources
    */
   search<T>(filter: string): Promise<T[]>;
+
+  searchWithPagination<T>(
+    filter: string,
+    iteratee: ResourceIteratee<T>,
+  ): Promise<void>;
 
   /**
    * Verifies authentication by doing a bind action.
@@ -49,6 +57,42 @@ export class LdapTSAdapter implements LdapClient {
     }
   }
 
+  async searchWithPagination<T>(
+    filter: string,
+    iteratee: ResourceIteratee<T>,
+  ): Promise<void> {
+    try {
+      const control = new PagedResultsControl();
+
+      await this.client.bind(this.config.username, this.config.password);
+
+      // The control value we pass in to the pagination search should have a
+      // control.value.size and an optional control.value.cookie. If the cookie
+      // isn't null, keep going.  I believe the control value in the search call
+      // will handle everything (since it should contain the lastest cookie from
+      // the last call)
+
+      do {
+        const res = await this.client.search(
+          this.config.baseDN,
+          {
+            filter,
+            derefAliases: 'always',
+            paged: {
+              pageSize: PAGE_SIZE,
+            },
+          },
+          control,
+        );
+        for (const item of res.searchEntries as unknown as T[]) {
+          await iteratee(item);
+        }
+      } while (control.value?.cookie);
+    } finally {
+      await this.client.unbind();
+    }
+  }
+
   async verifyAuthentication(): Promise<void> {
     try {
       await this.client.bind(this.config.username, this.config.password);
@@ -84,6 +128,16 @@ export class LdapTestAdapter implements LdapClient {
 
   async verifyAuthentication(): Promise<void> {
     // Do nothing
+  }
+
+  async searchWithPagination<T>(
+    filter: string,
+    iteratee: ResourceIteratee<T>,
+  ): Promise<void> {
+    const res = await this.search(filter);
+    for (const item of res as unknown as T[]) {
+      await iteratee(item);
+    }
   }
 }
 
