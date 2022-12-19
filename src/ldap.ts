@@ -1,6 +1,7 @@
 import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
 import * as ldapts from 'ldapts';
 
+const PAGE_SIZE = 100;
 export interface LdapClient {
   /**
    * Searches active directory for resources using the provided filter.
@@ -38,9 +39,20 @@ export class LdapTSAdapter implements LdapClient {
     try {
       await this.client.bind(this.config.username, this.config.password);
 
+      // It appears that ldapts handles pagination internally.  Passing in
+      // a control value causes the error `Error: Should not specify PagedResultsControl`
+      // Specifying just pageSize to prevent maxing out server side limits.
+
+      // TODO (adam-in-ict) Do we need to investigate alternatives that let us
+      // iterate on the results as they come in so that we aren't faced with an
+      // oversized result that has to fit in the available memory?
+
       const res = await this.client.search(this.config.baseDN, {
         filter,
         derefAliases: 'always',
+        paged: {
+          pageSize: PAGE_SIZE,
+        },
       });
 
       return res.searchEntries as unknown as T[];
