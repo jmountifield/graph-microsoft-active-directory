@@ -1,3 +1,4 @@
+import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
 import { IntegrationConfig } from './config';
 import { LdapClient, LdapTestAdapter, LdapTSAdapter } from './ldap';
 import {
@@ -75,7 +76,10 @@ export class APIClient {
   }
 }
 
-export function createAPIClient(config: IntegrationConfig): APIClient {
+export function createAPIClient(
+  config: IntegrationConfig,
+  logger: IntegrationLogger,
+): APIClient {
   if (process.env.NODE_ENV === 'test') {
     return new APIClient(new LdapTestAdapter());
   }
@@ -86,6 +90,7 @@ export function createAPIClient(config: IntegrationConfig): APIClient {
       url: config.ldapUrl,
       username: config.adUsername,
       password: config.adPassword,
+      logger: logger,
       pageSize: config.pageSize,
     }),
   );

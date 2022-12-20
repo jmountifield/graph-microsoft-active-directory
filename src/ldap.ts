@@ -1,4 +1,8 @@
-import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
+import {
+  IntegrationLogger,
+  IntegrationProviderAPIError,
+  IntegrationProviderAuthenticationError,
+} from '@jupiterone/integration-sdk-core';
 import * as ldapts from 'ldapts';
 
 const DEFAULT_PAGE_SIZE = 100;
@@ -22,6 +26,7 @@ interface LdapAdapterConfig {
   username: string;
   password: string;
   baseDN: string;
+  logger: IntegrationLogger;
   pageSize?: string;
 }
 
@@ -59,6 +64,23 @@ export class LdapTSAdapter implements LdapClient {
       });
 
       return res.searchEntries as unknown as T[];
+    } catch (err) {
+      if (err instanceof ldapts.ResultsTooLargeError) {
+        this.config.logger.error(
+          `Encountered a ResultsTooLargeError.  Page size of this request was `,
+          this.config.pageSize,
+        );
+        throw new IntegrationProviderAPIError({
+          code: err.code.toString(),
+          message:
+            'Server unable to complete request.  Please raise the server size limit or decrease the page size in your configuration.',
+          endpoint: this.config.baseDN,
+          status: err.message,
+          statusText: err.stack,
+        });
+      } else {
+        throw err;
+      }
     } finally {
       await this.client.unbind();
     }
