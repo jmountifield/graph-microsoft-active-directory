@@ -23,6 +23,10 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   baseDN: {
     type: 'string',
   },
+  pageSize: {
+    type: 'string',
+    optional: true,
+  },
 };
 
 /**
@@ -54,6 +58,11 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
    * The Active Directory password.
    */
   adPassword: string;
+
+  /**
+   * The Active Directory pageSize used in searches.
+   */
+  pageSize?: string;
 }
 
 export async function validateInvocation(

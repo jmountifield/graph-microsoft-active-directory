@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Search function now paginates responses.
+- Pagination size is now a configurable field.
+
 ## 3.0.0 - 2022-11-07
 
 ### Changed

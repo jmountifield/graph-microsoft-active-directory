@@ -1,7 +1,7 @@
 import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
 import * as ldapts from 'ldapts';
 
-const PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 100;
 export interface LdapClient {
   /**
    * Searches active directory for resources using the provided filter.
@@ -22,6 +22,7 @@ interface LdapAdapterConfig {
   username: string;
   password: string;
   baseDN: string;
+  pageSize?: string;
 }
 
 export class LdapTSAdapter implements LdapClient {
@@ -51,7 +52,9 @@ export class LdapTSAdapter implements LdapClient {
         filter,
         derefAliases: 'always',
         paged: {
-          pageSize: PAGE_SIZE,
+          pageSize: this.config.pageSize
+            ? Number(this.config.pageSize)
+            : DEFAULT_PAGE_SIZE,
         },
       });
 

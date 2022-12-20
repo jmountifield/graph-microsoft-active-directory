@@ -86,6 +86,7 @@ export function createAPIClient(config: IntegrationConfig): APIClient {
       url: config.ldapUrl,
       username: config.adUsername,
       password: config.adPassword,
+      pageSize: config.pageSize,
     }),
   );
 }
