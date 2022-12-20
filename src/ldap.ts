@@ -76,7 +76,7 @@ export class LdapTSAdapter implements LdapClient {
             'Server unable to complete request.  Please raise the server size limit or decrease the page size in your configuration.',
           endpoint: this.config.baseDN,
           status: err.message,
-          statusText: err.stack,
+          statusText: err.stack || '',
         });
       } else {
         throw err;
