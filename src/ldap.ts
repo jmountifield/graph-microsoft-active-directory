@@ -1,7 +1,11 @@
-import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
+import {
+  IntegrationLogger,
+  IntegrationProviderAPIError,
+  IntegrationProviderAuthenticationError,
+} from '@jupiterone/integration-sdk-core';
 import * as ldapts from 'ldapts';
 
-const PAGE_SIZE = 100;
+const DEFAULT_PAGE_SIZE = 100;
 export interface LdapClient {
   /**
    * Searches active directory for resources using the provided filter.
@@ -22,6 +26,8 @@ interface LdapAdapterConfig {
   username: string;
   password: string;
   baseDN: string;
+  logger: IntegrationLogger;
+  pageSize?: string;
 }
 
 export class LdapTSAdapter implements LdapClient {
@@ -47,15 +53,37 @@ export class LdapTSAdapter implements LdapClient {
       // iterate on the results as they come in so that we aren't faced with an
       // oversized result that has to fit in the available memory?
 
+      // Issue added to ldapts project asking about a method for processing
+      // pages as they're received here:  https://github.com/ldapts/ldapts/issues/126
+
       const res = await this.client.search(this.config.baseDN, {
         filter,
         derefAliases: 'always',
         paged: {
-          pageSize: PAGE_SIZE,
+          pageSize: this.config.pageSize
+            ? Number(this.config.pageSize)
+            : DEFAULT_PAGE_SIZE,
         },
       });
 
       return res.searchEntries as unknown as T[];
+    } catch (err) {
+      if (err instanceof ldapts.SizeLimitExceededError) {
+        this.config.logger.error(
+          `Encountered a SizeLimitExceededError.  Page size of this request was `,
+          this.config.pageSize,
+        );
+        throw new IntegrationProviderAPIError({
+          code: err.code.toString(),
+          message:
+            'Server unable to complete request.  Please raise the server size limit or decrease the page size in your configuration.',
+          endpoint: this.config.baseDN,
+          status: err.message,
+          statusText: err.stack || '',
+        });
+      } else {
+        throw err;
+      }
     } finally {
       await this.client.unbind();
     }

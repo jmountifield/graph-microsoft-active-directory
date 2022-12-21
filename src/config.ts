@@ -23,6 +23,10 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   baseDN: {
     type: 'string',
   },
+  pageSize: {
+    type: 'string',
+    optional: true,
+  },
 };
 
 /**
@@ -54,12 +58,20 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
    * The Active Directory password.
    */
   adPassword: string;
+
+  /**
+   * The Active Directory pageSize used in searches.
+   */
+  pageSize?: string;
 }
 
 export async function validateInvocation(
   context: IntegrationExecutionContext<IntegrationConfig>,
 ) {
-  const { config } = context.instance;
+  const {
+    instance: { config },
+    logger,
+  } = context;
 
   // Support old config values.
   // Added Oct 2022.
@@ -102,6 +114,6 @@ export async function validateInvocation(
     );
   }
 
-  const apiClient = createAPIClient(config);
+  const apiClient = createAPIClient(config, logger);
   await apiClient.verifyAuthentication();
 }
