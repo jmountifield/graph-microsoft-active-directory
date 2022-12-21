@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.1.0 - 2022-12-21
+
 ### Changed
 
 - Search function now paginates responses.
