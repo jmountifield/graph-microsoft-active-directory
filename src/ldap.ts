@@ -53,6 +53,9 @@ export class LdapTSAdapter implements LdapClient {
       // iterate on the results as they come in so that we aren't faced with an
       // oversized result that has to fit in the available memory?
 
+      // Issue added to ldapts project asking about a method for processing
+      // pages as they're received here:  https://github.com/ldapts/ldapts/issues/126
+
       const res = await this.client.search(this.config.baseDN, {
         filter,
         derefAliases: 'always',
