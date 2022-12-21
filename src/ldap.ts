@@ -67,7 +67,7 @@ export class LdapTSAdapter implements LdapClient {
     } catch (err) {
       if (err instanceof ldapts.SizeLimitExceededError) {
         this.config.logger.error(
-          `Encountered a ResultsTooLargeError.  Page size of this request was `,
+          `Encountered a SizeLimitExceededError.  Page size of this request was `,
           this.config.pageSize,
         );
         throw new IntegrationProviderAPIError({
