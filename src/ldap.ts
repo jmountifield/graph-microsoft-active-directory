@@ -65,7 +65,7 @@ export class LdapTSAdapter implements LdapClient {
 
       return res.searchEntries as unknown as T[];
     } catch (err) {
-      if (err instanceof ldapts.ResultsTooLargeError) {
+      if (err instanceof ldapts.SizeLimitExceededError) {
         this.config.logger.error(
           `Encountered a ResultsTooLargeError.  Page size of this request was `,
           this.config.pageSize,
