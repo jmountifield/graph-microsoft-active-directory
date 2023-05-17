@@ -12,8 +12,7 @@ env:
 
 jobs:
   build:
-    # only run for the main branch
-    if: github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
     permissions:
       contents: read
