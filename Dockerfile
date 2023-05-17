@@ -8,4 +8,4 @@ COPY src/ ${JUPITERONE_INTEGRATION_DIR}/src
 WORKDIR ${JUPITERONE_INTEGRATION_DIR}
 RUN yarn install
 
-ENTRYPOINT ["/usr/local/bin/yarn", "j1-integration", "run",  "-i", ${INTEGRATION_INSTANCE_ID}]
+ENTRYPOINT ["/usr/local/bin/yarn", "j1-integration", "run",  "-i", "${INTEGRATION_INSTANCE_ID}"]
