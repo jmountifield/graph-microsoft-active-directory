@@ -2,10 +2,10 @@ name: Package
 
 on:
   push:
-    tags:
-      - '*'
     branches:
       - main
+    tags:
+      - '*'
     
 env:
   REGISTRY: ghcr.io
@@ -25,6 +25,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Only proceed if tag is present
+      - name: Check if tag is present
+        run: |
+          if [ -z "$GITHUB_REF" ] || [ "${GITHUB_REF#refs/tags/}" == "$GITHUB_REF" ]; then
+            echo "::set-env name=SKIP_WORKFLOW::true"
+          fi
+        id: check_tag
+
       # Login against a Docker registry
       # https://github.com/docker/login-action
       - name: Log into registry ${{ env.REGISTRY }}
@@ -33,6 +41,7 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.check_tag.outputs.SKIP_WORKFLOW != 'true'
 
       # Extract metadata (tags, labels) for Docker
       # https://github.com/docker/metadata-action
@@ -41,6 +50,7 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        if: steps.check_tag.outputs.SKIP_WORKFLOW != 'true'
 
       # Build and push Docker image
       # https://github.com/docker/build-push-action
@@ -51,3 +61,4 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+        if: steps.check_tag.outputs.SKIP_WORKFLOW != 'true'
