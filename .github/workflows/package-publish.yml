@@ -27,11 +27,11 @@ jobs:
 
       # Only proceed if tag is present
       - name: Check if tag is present
+        id: check_tag
         run: |
           if [ -z "$GITHUB_REF" ] || [ "${GITHUB_REF#refs/tags/}" == "$GITHUB_REF" ]; then
-            echo "::set-env name=SKIP_WORKFLOW::true"
+            echo "SKIP_WORKFLOW=true" >> $GITHUB_ENV
           fi
-        id: check_tag
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
