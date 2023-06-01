@@ -22,8 +22,6 @@ jobs:
 
       - name: Install Cosign
         uses: sigstore/cosign-installer@main
-        with:
-            cosign-release: 'v3.0.5' # Pinning cosign version
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
