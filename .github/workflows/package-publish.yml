@@ -58,4 +58,4 @@ jobs:
         env:
           DIGEST: ${{ steps.build-and-push.outputs.DIGEST }}
           TAGS: ${{ steps.meta.outputs.tags }}
-        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.DIGEST }}"
+        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.DIGEST }}
