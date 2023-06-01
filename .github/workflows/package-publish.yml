@@ -56,7 +56,4 @@ jobs:
       # Sign the Docker image (Using OIDC Token for "keyless signing")
       # https://github.com/sigstore/cosign-installer
       - name: Sign the images with GH OIDC Token
-        env:
-          DIGEST: ${{ steps.build-and-push.outputs.DIGEST }}
-          TAGS: ${{ steps.meta.outputs.tags }}
         run: cosign sign -y ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.DIGEST }}
