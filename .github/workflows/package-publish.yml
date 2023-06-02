@@ -3,7 +3,7 @@ name: Build and Package
 on:
   push:
     tags: '*'
-    
+
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -55,4 +55,7 @@ jobs:
       # Sign the Docker image (Using OIDC Token for "keyless signing")
       # https://github.com/sigstore/cosign-installer
       - name: Sign the images with GH OIDC Token
-        run: COSIGN_REPOSITORY=ghcr.io/${{ github.repository }}-signatures cosign sign -y ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.DIGEST }}
+        run:
+          COSIGN_REPOSITORY=ghcr.io/${{ github.repository }}-signatures cosign
+          sign -y ghcr.io/${{ github.repository }}@${{
+          steps.build-and-push.outputs.DIGEST }}
