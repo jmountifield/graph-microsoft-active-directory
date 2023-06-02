@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install Cosign
-        uses: sigstore/cosign-installer@main
+        uses: sigstore/cosign-installer@v3
 
       # Login against a Docker registry
       # https://github.com/docker/login-action
@@ -56,4 +56,4 @@ jobs:
       # Sign the Docker image (Using OIDC Token for "keyless signing")
       # https://github.com/sigstore/cosign-installer
       - name: Sign the images with GH OIDC Token
-        run: cosign sign -y ghcr.io/${{ github.repository }}@${{ steps.build-and-push.outputs.DIGEST }}
+        run: cosign sign -y ghcr.io/${{ github.repository }}-sig@${{ steps.build-and-push.outputs.DIGEST }}
