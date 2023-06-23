@@ -59,6 +59,5 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Sign the images with GH OIDC Token
         run:
-          COSIGN_REPOSITORY=ghcr.io/${{ env.REPO }}-signatures cosign
-          sign -y ghcr.io/${{ env.REPO }}@${{
-          steps.build-and-push.outputs.DIGEST }}
+          COSIGN_REPOSITORY=ghcr.io/${{ env.REPO }}-signatures cosign sign -y
+          ghcr.io/${{ env.REPO }}@${{ steps.build-and-push.outputs.DIGEST }}
