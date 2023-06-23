@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository,, }}
 
 jobs:
   build:
@@ -56,6 +56,6 @@ jobs:
       # https://github.com/sigstore/cosign-installer
       - name: Sign the images with GH OIDC Token
         run:
-          COSIGN_REPOSITORY=ghcr.io/${{ github.repository }}-signatures cosign
-          sign -y ghcr.io/${{ github.repository }}@${{
+          COSIGN_REPOSITORY=ghcr.io/${{ github.repository,, }}-signatures cosign
+          sign -y ghcr.io/${{ github.repository,, }}@${{
           steps.build-and-push.outputs.DIGEST }}
